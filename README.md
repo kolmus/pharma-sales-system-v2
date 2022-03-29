@@ -1,2 +1,2 @@
-# pharma-ales-system-v2
+# pharma-sales-system-v2
 microservices version of pharma sales system

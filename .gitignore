@@ -133,4 +133,4 @@ dmypy.json
 
 # Secrets
 .env
-.local_settings.py
+local_settings.py

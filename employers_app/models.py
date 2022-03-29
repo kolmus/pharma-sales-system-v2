@@ -16,3 +16,13 @@ class Employee(models.Model):
 
     def __str__(self):
         return self.name
+
+class CalendarSupervisor(models.Model):
+    owner = models.ForeignKey(Employee, verbose_name='Właściciel', on_delete=models.PROTECT, related_name="calendar_supervisor")
+    meeting_date = models.DateField(verbose_name='Data spotkania', )
+    employee = models.ForeignKey(Employee, null=True, verbose_name="Podopieczny", on_delete=models.PROTECT)
+    note = models.TextField(verbose_name="Notatka")
+    
+    
+    def __str__(self):
+        return f'Data: {self.meeting_date}'

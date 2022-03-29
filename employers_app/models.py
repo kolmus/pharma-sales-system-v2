@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Employee(models.Model):
-    phone = models.IntegerField(verbose_name="Numer telefonu")
+    phone = models.BigIntegerField(verbose_name="Numer telefonu")
     role = models.CharField(max_length=128, verbose_name='Stanowisko')
     supervisor = models.ForeignKey('Employee', verbose_name='Przełożony', on_delete=models.SET_NULL, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)

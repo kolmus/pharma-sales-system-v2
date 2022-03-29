@@ -5,42 +5,64 @@ from faker import Faker
 
 faker = Faker("pl-PL")
 
-def create_employee(count):
-    users = []
+def create_user() -> dict:
+    """Creates fake user
+
+    Returns:
+        dict:
+            id (int): id of new user in db
+            username (str): username of new user
+            password (str): password of new user
+            obj (obj): new user object
+    """    
+    profile = faker.simple_profile()
+    password = faker.password(length=12)
+    
+    user_new = User.objects.create_user(
+        username=profile['username'], 
+        password=password, 
+        first_name=profile['name'].split(" ")[0],
+        last_name=profile['name'].split(" ")[1],
+        email = profile['mail']
+    )
+    return {
+        'id': user_new.id,
+        'username': profile['username'],
+        'password': password,
+        'obj': user_new
+    }
+
+
+def create_employers(count):
+    """creates new count of fake Employee model objects
+
+    Args:
+        count (int): number of new employers
+
+    Returns:
+        list of dicts: 
+            id [int]: id of new user in db
+            username [str]: username of new user
+            password [str]: password of new user
+            obj [obj]: new user object
+    """    
+    employers = []
     for i in range(count):
-        profile = faker.simple_profile(),
-        password = faker.password(length=12)
-        user = User.objects.create_user(
-            username=profile['username'],
-            password=password, 
-            first_name=profile['name'].split(" ")[0],
-            last_name=profile['name'].split(" ")[1],
-            email=profile['mail']
-        )
-        users.append({
-            'object': user, 
-            "username": profile['username'], 
-            'password': password
-        })
-        if len(users) == 1:
-            supervisor = Employee.objects.create(
-                phone=faker.msisdn(),
-                role=faker.job(),
-                supervisor=None,
-                user=user,
-                is_active=faker.boolean(chance_of_getting_true=25),
-                is_supervisor=faker.boolean(chance_of_getting_true=5)
-            )
-            users[0]['employer'] = supervisor
-            
-    for user in users[1:]:
-        employee = Employee.objects.create(
-            phone=faker.msisdn(),
-            role=faker.job(),
-            supervisor=supervisor,
-            user=user,
-            is_active=faker.boolean(chance_of_getting_true=25),
-            is_supervisor=faker.boolean(chance_of_getting_true=5)
-        )
-        user['employer'] = employee
-    print(users)
+        new_user_info = create_user()
+        
+        employee = Employee()
+        employee.phone = faker.msisdn()
+        employee.role = faker.job()
+        if new_user_info['id'] == 1:
+            employee.is_supervisor = True
+        else:
+            employee.supervisor = Employee.objects.get(id=1)
+            employee.is_supervisor = False
+        employee.user = new_user_info['obj']
+        employee.is_active = faker.boolean(chance_of_getting_true=75)
+        employee.save()
+        
+        employers.append({'user_info': new_user_info, 'employee': employee})
+    return employers
+    
+    

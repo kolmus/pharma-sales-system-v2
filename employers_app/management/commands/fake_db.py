@@ -10,6 +10,7 @@ class Command(BaseCommand):
     Args:
         BaseCommand: python manage.py fake_db
     """
+
     def handle(self, *args, **options):
         create_employers(count=50)
         create_calendar_visit(count=14)

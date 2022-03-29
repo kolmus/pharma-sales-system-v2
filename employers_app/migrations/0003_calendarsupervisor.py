@@ -7,18 +7,34 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('employers_app', '0002_alter_employee_phone'),
+        ("employers_app", "0002_alter_employee_phone"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CalendarSupervisor',
+            name="CalendarSupervisor",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('meeting_date', models.DateField(verbose_name='Data spotkania')),
-                ('note', models.TextField(verbose_name='Notatka')),
-                ('employee', models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to='employers_app.employee', verbose_name='Podopieczny')),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='calendar_supervisor', to='employers_app.employee', verbose_name='Właściciel')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("meeting_date", models.DateField(verbose_name="Data spotkania")),
+                ("note", models.TextField(verbose_name="Notatka")),
+                (
+                    "employee",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="employers_app.employee",
+                        verbose_name="Podopieczny",
+                    ),
+                ),
+                (
+                    "owner",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="calendar_supervisor",
+                        to="employers_app.employee",
+                        verbose_name="Właściciel",
+                    ),
+                ),
             ],
         ),
     ]

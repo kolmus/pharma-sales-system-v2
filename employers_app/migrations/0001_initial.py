@@ -15,15 +15,26 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Employee',
+            name="Employee",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('phone', models.IntegerField(verbose_name='Numer telefonu')),
-                ('role', models.CharField(max_length=128, verbose_name='Stanowisko')),
-                ('is_active', models.BooleanField(default=True, verbose_name='Zatrudniony')),
-                ('is_supervisor', models.BooleanField(default=False, verbose_name='Stanowisko kierownicze')),
-                ('supervisor', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='employers_app.employee', verbose_name='Przełożony')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("phone", models.IntegerField(verbose_name="Numer telefonu")),
+                ("role", models.CharField(max_length=128, verbose_name="Stanowisko")),
+                ("is_active", models.BooleanField(default=True, verbose_name="Zatrudniony")),
+                ("is_supervisor", models.BooleanField(default=False, verbose_name="Stanowisko kierownicze")),
+                (
+                    "supervisor",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="employers_app.employee",
+                        verbose_name="Przełożony",
+                    ),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+                ),
             ],
         ),
     ]

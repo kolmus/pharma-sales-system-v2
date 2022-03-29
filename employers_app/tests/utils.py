@@ -1,4 +1,6 @@
-from employers_app.models import Employee
+from employers_app.models import CalendarSupervisor, Employee
+from datetime import date, timedelta
+from random import randint
 
 from django.contrib.auth.models import User
 from faker import Faker
@@ -29,7 +31,7 @@ def create_user() -> dict:
     return {"id": user_new.id, "username": profile["username"], "password": password, "obj": user_new}
 
 
-def create_employers(count):
+def create_employers(count) -> list:
     """creates new count of fake Employee model objects
 
     Args:
@@ -60,3 +62,26 @@ def create_employers(count):
 
         employers.append({"user_info": new_user_info, "employee": employee})
     return employers
+
+
+def create_calendar_visit(count) -> list:
+    """Creates count of fake visits in CalendarSupervisor model
+
+    Args:
+        count (int): number of ner visits
+
+    Returns:
+        list: new objects
+    """
+    visits = []
+    for i in range(count):
+        new_visit = CalendarSupervisor()
+        employee = Employee.objects.filter(is_supervisor=True).first()
+        team = Employee.objects.filter(supervisor=employee)
+        new_visit.owner = employee
+        new_visit.meeting_date = date.today() + timedelta(days=(-14 + i))
+        new_visit.employee = team[randint(0, team.count() - 1)]
+        new_visit.note = faker.sentence(nb_words=40)
+        new_visit.save()
+        visits.append(new_visit)
+    return visits

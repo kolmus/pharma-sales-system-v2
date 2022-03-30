@@ -3,14 +3,16 @@ from employers_app.tests.utils import create_employers, create_calendar_visit
 
 
 class Command(BaseCommand):
-    """creates fake db for developers
-        new users -> 50
-        new employers -> 50
-        new visits -> 14
-    Args:
-        BaseCommand: python manage.py fake_db
-    """
+    pass
 
-    def handle(self, *args, **options):
-        create_employers(count=50)
-        create_calendar_visit(count=14)
+    # """creates fake db for developers
+    #     new users -> 50
+    #     new employers -> 50
+    #     new visits -> 14
+    # Args:
+    #     BaseCommand: python manage.py fake_db
+    # """
+
+    # def handle(self, *args, **options):
+    #     create_employers(count=50)
+    #     create_calendar_visit(count=14)

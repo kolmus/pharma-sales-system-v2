@@ -22,12 +22,19 @@ class EmployeeSerializer(serializers.ModelSerializer):
         model = Employee
         fields = "__all__"
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer1(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'first_name', 'last_name', 'groups', 'is_active']
         
-# class GroupSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = Group
-#         fields = ['url', 'name']
+        
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ['url', 'username', 'email', 'groups']
+        
+        
+class GroupSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Group
+        fields = ['url', 'name']

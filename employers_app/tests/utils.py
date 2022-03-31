@@ -1,33 +1,44 @@
-# from employers_app.models import CalendarSupervisor, Employee
+from django.contrib.auth.hashers import make_password
+from employers_app.models import User
+
+from faker import Faker
 # from datetime import date, timedelta
-# from random import randint
+from random import shuffle
 
-# from django.contrib.auth.models import User
-# from faker import Faker
-
-# faker = Faker("pl-PL")
+faker = Faker("pl-PL")
 
 
-# def create_user() -> dict:
-#     """Creates fake user
-
-#     Returns:
-#         dict:
-#             id (int): id of new user in db
-#             username (str): username of new user
-#             password (str): password of new user
-#             obj (obj): new user object
-#     """
-#     profile = faker.simple_profile()
-#     password = faker.password(length=12)
-
-#     user_new = User.objects.create_user(
-#         username=profile["username"],
-#         password=password,
-#         first_name=profile["name"].split(" ")[0],
-#         last_name=profile["name"].split(" ")[1],
-#         email=profile["mail"],
-#     )
+def create_user(count) -> list:
+    response = []
+    supervisors = []
+    
+    for i in range(count):
+        new_user = User()
+        profile = faker.simple_profile()
+        new_user.set_password(faker.password(length=12))
+        new_user.phone = faker.msisdn()
+        new_user.name = profile["name"]
+        new_user.email = profile["mail"]
+        new_user.role = faker.job()
+        if (len(response)+1) % 15 == 1:
+            shuffle(supervisors)
+            supervisors.append(len(response)+1)
+            new_user.is_supervisor = True
+        else:
+            shuffle(supervisors)
+            new_user.supervisor = User.objects.get(id=(supervisors[0]))
+            new_user.is_supervisor = False
+        new_user.is_active = faker.boolean(chance_of_getting_true=75)
+        
+        new_user.save()
+        response.append(new_user)
+    return response
+        
+        
+        
+        
+        
+        
 #     return {"id": user_new.id, "username": profile["username"], "password": password, "obj": user_new}
 
 

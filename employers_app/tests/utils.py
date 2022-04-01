@@ -7,7 +7,14 @@ from random import shuffle
 faker = Faker("pl-PL")
 
 
-def create_fake_superuser():
+def create_fake_superuser() -> object:
+    """Creates superuser
+    email: a@a.pl
+    password: adminadmin
+
+    Returns:
+        obj: new superuser
+    """    
     new_user = User()
     new_user.set_password("adminadmin")
     new_user.name = "Łukasz Kolmus"
@@ -21,6 +28,14 @@ def create_fake_superuser():
 
 
 def create_users(count) -> list:
+    """creates count of new users with fake data
+
+    Args:
+        count (int): count of new users
+
+    Returns:
+        list: list of objects - new users
+    """    
     response = []
     supervisors = []
 

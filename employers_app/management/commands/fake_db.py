@@ -11,4 +11,3 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         create_user(count=50)
-

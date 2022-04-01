@@ -14,7 +14,7 @@ def create_fake_superuser() -> object:
 
     Returns:
         obj: new superuser
-    """    
+    """
     new_user = User()
     new_user.set_password("adminadmin")
     new_user.name = "Łukasz Kolmus"
@@ -35,7 +35,7 @@ def create_users(count) -> list:
 
     Returns:
         list: list of objects - new users
-    """    
+    """
     response = []
     supervisors = []
 

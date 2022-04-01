@@ -1,6 +1,3 @@
-from urllib import response
-from employers_app.models import User
-
 import pytest
 
 
@@ -15,12 +12,12 @@ def test_login_view(client, create_superuser_only):
     response = client.post("/login/", {"email": "a@a.pl", "password": "admin"}, format="json")
     assert response.status_code == 403
     assert "jwt" not in response.data
-    assert response.cookies.get("jwt") == None
+    assert response.cookies.get("jwt") is None
 
     response = client.post("/login/", {"email": "aaaa@a.pl", "password": "adminadmin"}, format="json")
     assert response.status_code == 403
     assert "jwt" not in response.data
-    assert response.cookies.get("jwt") == None
+    assert response.cookies.get("jwt") is None
 
 
 @pytest.mark.django_db

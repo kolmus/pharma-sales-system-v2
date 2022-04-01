@@ -9,6 +9,7 @@ import jwt
 from .models import User
 from Pharma_sales_system_2.settings import SECRET_KEY
 
+
 # Create your views here.
 class LoginView(APIView):
     """This view let log in with API

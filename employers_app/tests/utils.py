@@ -1,4 +1,3 @@
-from django.contrib.auth.hashers import make_password
 from employers_app.models import User
 
 from faker import Faker

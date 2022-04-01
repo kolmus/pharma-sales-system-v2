@@ -6,16 +6,19 @@ from random import shuffle
 
 faker = Faker("pl-PL")
 
+
 def create_fake_superuser():
     new_user = User()
-    new_user.set_password('adminadmin')
-    new_user.name = 'Łukasz Kolmus'
-    new_user.email = 'a@a.pl'
-    new_user.role = 'SuperAdmin'
+    new_user.set_password("adminadmin")
+    new_user.name = "Łukasz Kolmus"
+    new_user.email = "a@a.pl"
+    new_user.role = "SuperAdmin"
     new_user.phone = 691814293
     new_user.is_supervisor = True
     new_user.is_superuser = True
     new_user.save()
+    return new_user
+
 
 def create_users(count) -> list:
     response = []

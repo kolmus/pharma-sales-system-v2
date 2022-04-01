@@ -11,6 +11,6 @@ class Command(BaseCommand):
     """
 
     def handle(self, *args, **options):
-        
+
         create_fake_superuser()
         create_users(count=50)

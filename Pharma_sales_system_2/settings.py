@@ -14,21 +14,36 @@ from pathlib import Path
 import os
 import dotenv
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Add .env variables anywhere before SECRET_KEY
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
+
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 try:
-    from .local_settings import DEBUG
-    from .local_settings import ALLOWED_HOSTS
+    DEBUG = os.environ["DEBUG"]
+    ALLOWED_HOSTS = os.environ["DJANGO_ALLOWED_HOSTS"].split(' ')
 except ModuleNotFoundError:
     DEBUG = True
     ALLOWED_HOSTS = []
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 
 try:
-    from .local_settings import DATABASES
+    DATABASES = {
+        'default': {
+            'HOST': os.environ["DB_HOST"],
+            'NAME': os.environ["DB_NAME"],
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'USER': os.environ["DB_USER"],
+            'PASSWORD': os.environ["DB_PASSWORD"],
+        }
+    }
 except ModuleNotFoundError:
     DATABASES = {
     'default': {
@@ -37,10 +52,6 @@ except ModuleNotFoundError:
     }
 }
 
-# Add .env variables anywhere before SECRET_KEY
-dotenv_file = os.path.join(BASE_DIR, ".env")
-if os.path.isfile(dotenv_file):
-    dotenv.load_dotenv(dotenv_file)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ["SECRET_KEY"]  # Instead of your actual secret key

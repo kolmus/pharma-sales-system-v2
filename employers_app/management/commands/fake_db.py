@@ -14,3 +14,4 @@ class Command(BaseCommand):
 
         create_fake_superuser()
         create_users(count=50)
+        print("Done!")

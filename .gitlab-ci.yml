@@ -1,27 +1,36 @@
-image: "python:3.8"
+image: docker/compose:latest
 
 services:
-    - postgres
+    - docker:dind
 
 before_script:
-    - python --version
-    - pip install -r requirements.txt
-    - python manage.py migrate
+    - docker --version
+    - docker-compose version
 
 stages:
+    - Build
     - Static Analysis
     - Test
+
+build:
+    stage: Build
+    script:
+        - docker-compose down
+        - docker-compose build
+        - sudo docker-compose run django_pss_v2_auth python manage.py migrate
+        - docker-compose up -d
+
 
 flake8:
     stage: Static Analysis
     script:
-        - flake8 --max-line-length=120 .
+        - docker-compose run django_pss_v2_auth flake8 --max-line-length=120 employers_app
 
 unit_test:
     stage: Test
     script:
-    - pwd
-    - ls -l
-    - export PYTHONPATH="$PYTHONPATH:."
-    - python -c "import sys;print(sys.path)"
-    - pytest
+    - docker-compose run django_pss_v2_auth pwd
+    - docker-compose run django_pss_v2_auth ls -l
+    - docker-compose run django_pss_v2_auth export PYTHONPATH="$PYTHONPATH:."
+    - docker-compose run django_pss_v2_auth python -c "import sys;print(sys.path)"
+    - docker-compose run django_pss_v2_auth pytest
